@@ -1,10 +1,14 @@
-﻿using System;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,10 +16,87 @@ namespace ScaleGo
 {
   public partial class Form1 : Form
   {
+
+    private static readonly HttpClient _httpClient = new HttpClient();
+
+    private const string ApiUrl = "https://localhost:5051/api/Shipments/UpdateShipmentWeight";
+    private const string CompanyID = "280533";
+    private const string AccessToken = "AC1E0FAD-5963-4B6E-A61F-93E281C286D9";
+    private const string Language = "ar";
+
+    public class UpdateShipmentWeightRequest
+    {
+      public string awb { get; set; }
+      public decimal weight { get; set; }
+    }
+
+    public class GeneralResponse
+    {
+      public bool Success { get; set; }
+      public string Message { get; set; }
+      public object Data { get; set; }
+    }
+
+    private async Task<string> CallUpdateShipmentWeightApi(string awb, decimal weight)
+    {
+      var requestObj = new UpdateShipmentWeightRequest
+      {
+        awb = awb,
+        weight = weight
+      };
+
+      var json = JsonConvert.SerializeObject(requestObj);
+
+      using (var request = new HttpRequestMessage(HttpMethod.Post, ApiUrl))
+      {
+        request.Headers.Accept.Clear();
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+        request.Headers.Add("CompanyID", CompanyID);
+        request.Headers.Add("AccessToken", AccessToken);
+        request.Headers.Add("Language", Language);
+
+        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        using (var response = await _httpClient.SendAsync(request))
+        {
+          var responseContent = await response.Content.ReadAsStringAsync();
+
+          if (string.IsNullOrWhiteSpace(responseContent))
+          {
+            if (response.IsSuccessStatusCode)
+              return "تم تحديث الوزن بنجاح";
+
+            return "API Error: HTTP " + (int)response.StatusCode;
+          }
+
+          try
+          {
+            var result = JsonConvert.DeserializeObject<GeneralResponse>(responseContent);
+
+            if (result != null && !string.IsNullOrWhiteSpace(result.Message))
+              return result.Message;
+          }
+          catch
+          {
+          }
+
+          if (response.IsSuccessStatusCode)
+            return responseContent;
+
+          return string.Format(
+            "API Error: HTTP {0}{1}{2}",
+            (int)response.StatusCode,
+            Environment.NewLine,
+            responseContent);
+        }
+      }
+    }
+
     Scale scale = new Scale();
     public Form1()
     {
       InitializeComponent();
+      System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
     }
 
     private void btnConnectScale_Click(object sender, EventArgs e)
@@ -89,37 +170,68 @@ namespace ScaleGo
       }
     }
 
-    private void btnUpdateWeight_Click(object sender, EventArgs e)
+    private async void btnUpdateWeight_Click(object sender, EventArgs e)
     {
-      //test
+#if DEBUG
+      txtWeight.Text = "0.620";
+      txtAWB.Text = "EDC03080196EG";
+#endif
+
       string msg;
-      if(txtAWB.Text.Length<3)
+
+      if (txtAWB.Text.Trim().Length < 3)
       {
-        msg="Please enter a valid AWB number";
+        msg = "Please enter a valid AWB number";
         lblMsg.Text = msg;
         txtAWB.SelectAll();
         txtAWB.Focus();
         return;
       }
 
-      if (!string.IsNullOrEmpty(txtWeight.Text))
+      if (string.IsNullOrWhiteSpace(txtWeight.Text))
       {
-        try
-        {
-          var wght = Convert.ToDecimal(txtWeight.Text);
-          msg=$"Shipment number: {txtAWB.Text} , Weight: {wght}";
-          lblMsg.Text = msg;
-          txtAWB.Text = "";
-          txtAWB.Focus();
-        }
-        catch (Exception)
-        {
-        }
-      }
-      else
-      {
-        msg="No weight data available to update";
+        msg = "No weight data available to update";
         lblMsg.Text = msg;
+        return;
+      }
+
+      decimal wght;
+      if (!decimal.TryParse(txtWeight.Text.Trim(), out wght))
+      {
+        msg = "Invalid weight value";
+        lblMsg.Text = msg;
+        return;
+      }
+
+      if (wght <= 0)
+      {
+        msg = "Weight must be greater than zero";
+        lblMsg.Text = msg;
+        return;
+      }
+
+      btnUpdateWeight.Enabled = false;
+
+      try
+      {
+        lblMsg.Text = "جاري تحديث الوزن...";
+
+        string awb = txtAWB.Text.Trim();
+        string apiResult = await CallUpdateShipmentWeightApi(awb, wght);
+
+        lblMsg.Text = apiResult;
+
+        txtAWB.Text = "";
+        txtAWB.Focus();
+        txtAWB.SelectAll();
+      }
+      catch (Exception ex)
+      {
+        lblMsg.Text = "Error: " + ex.Message;
+      }
+      finally
+      {
+        btnUpdateWeight.Enabled = true;
       }
     }
   }
