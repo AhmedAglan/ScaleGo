@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using System.IO.Ports;
+using System.Windows.Forms;
 
 namespace ScaleGo
 {
@@ -35,8 +36,8 @@ namespace ScaleGo
       {
         if (_config == null)
         {
-          var json = File.ReadAllText("ScaleInfo.json");
-          _config = JsonConvert.DeserializeObject<AppConfig>(json);
+          var path = Path.Combine(Application.StartupPath, "ScaleInfo.json");
+          var json = File.ReadAllText(path); _config = JsonConvert.DeserializeObject<AppConfig>(json);
         }
 
         return _config;
