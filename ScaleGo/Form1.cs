@@ -40,6 +40,49 @@ namespace ScaleGo
       public object Data { get; set; }
     }
 
+    private void ApplyMainStyle()
+    {
+      BackColor = AppTheme.BackColor;
+      Font = AppTheme.DefaultFont;
+      ForeColor = AppTheme.Text;
+      Text = "ScaleGo";
+
+      AppTheme.BuildHeader(this, "ScaleGo");
+
+      label1.Text = "AWB";
+      label1.Font = AppTheme.DefaultFont;
+      label1.ForeColor = AppTheme.Text;
+
+      AppTheme.StyleTextBox(txtAWB);
+      AppTheme.StyleTextBox(txtWeight, true);
+
+      txtWeight.Font = AppTheme.WeightFont;
+      txtWeight.TextAlign = HorizontalAlignment.Center;
+
+      AppTheme.StyleSecondaryButton(btnConnectScale);
+      AppTheme.StylePrimaryButton(btnUpdateWeight);
+
+      btnConnectScale.Size = new Size(150, 40);
+      btnUpdateWeight.Size = new Size(260, 44);
+
+      btnConnectScale.Location = new Point(40, 90);
+      txtWeight.Location = new Point(210, 92);
+      txtWeight.Size = new Size(170, 40);
+
+      label1.Location = new Point(40, 155);
+      txtAWB.Location = new Point(210, 150);
+      txtAWB.Size = new Size(260, 32);
+
+      btnUpdateWeight.Location = new Point(40, 205);
+
+      lblMsg.Location = new Point(500, 90);
+      lblMsg.Size = new Size(250, 160);
+      lblMsg.TextAlign = ContentAlignment.MiddleCenter;
+      lblMsg.Font = AppTheme.DefaultFont;
+      lblMsg.ForeColor = AppTheme.MutedText;
+
+      ClientSize = new Size(800, 330);
+    }
     private async Task<string> CallUpdateShipmentWeightApi(string awb, decimal weight)
     {
       var requestObj = new UpdateShipmentWeightRequest
@@ -100,6 +143,7 @@ namespace ScaleGo
     {
       InitializeComponent();
       System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+      DoubleBuffered = true;
     }
 
     private void btnConnectScale_Click(object sender, EventArgs e)
@@ -164,6 +208,19 @@ namespace ScaleGo
         {
           var wght = scale.Weight;
           txtWeight.Text = wght.ToString();
+
+          txtWeight.BackColor = Color.FromArgb(220, 252, 231);
+
+          var flashTimer = new Timer();
+          flashTimer.Interval = 250;
+          flashTimer.Tick += (s, ev) =>
+          {
+            txtWeight.BackColor = AppTheme.ReadOnlyBack;
+            flashTimer.Stop();
+            flashTimer.Dispose();
+          };
+          flashTimer.Start();
+
         }
       }
       catch (Exception)
@@ -185,7 +242,7 @@ namespace ScaleGo
       if (txtAWB.Text.Trim().Length < 3)
       {
         msg = "Please enter a valid AWB number";
-        lblMsg.Text = msg;
+        AppTheme.ShowStatus(lblMsg, msg, isError: true);
         txtAWB.SelectAll();
         txtAWB.Focus();
         return;
@@ -194,7 +251,7 @@ namespace ScaleGo
       if (string.IsNullOrWhiteSpace(txtWeight.Text))
       {
         msg = "No weight data available to update";
-        lblMsg.Text = msg;
+        AppTheme.ShowStatus(lblMsg, msg, isError: true);
         return;
       }
 
@@ -202,14 +259,14 @@ namespace ScaleGo
       if (!decimal.TryParse(txtWeight.Text.Trim(), out wght))
       {
         msg = "Invalid weight value";
-        lblMsg.Text = msg;
+        AppTheme.ShowStatus(lblMsg, msg, isError: true);
         return;
       }
 
       if (wght <= 0)
       {
         msg = "Weight must be greater than zero";
-        lblMsg.Text = msg;
+        AppTheme.ShowStatus(lblMsg, msg, isError: true);
         return;
       }
 
@@ -217,12 +274,12 @@ namespace ScaleGo
 
       try
       {
-        lblMsg.Text = "جاري تحديث الوزن...";
+        AppTheme.ShowStatus(lblMsg, "جاري تحديث الوزن...");
 
         string awb = txtAWB.Text.Trim();
         string apiResult = await CallUpdateShipmentWeightApi(awb, wght);
 
-        lblMsg.Text = apiResult;
+        AppTheme.ShowStatus(lblMsg, apiResult, isSuccess: true);
 
         txtAWB.Text = "";
         txtAWB.Focus();
@@ -230,7 +287,7 @@ namespace ScaleGo
       }
       catch (Exception ex)
       {
-        lblMsg.Text = "Error: " + ex.Message;
+        AppTheme.ShowStatus(lblMsg, "Error: " + ex.Message, isError: true);
       }
       finally
       {
@@ -241,6 +298,8 @@ namespace ScaleGo
 
     private void Form1_Load(object sender, EventArgs e)
     {
+      ApplyMainStyle();
+
       if (!UserSession.IsLoggedIn)
       {
         MessageBox.Show("يجب تسجيل الدخول أولاً");
@@ -248,8 +307,9 @@ namespace ScaleGo
         return;
       }
 
-      lblMsg.Text = "مرحبًا " + UserSession.DisplayName;
+      AppTheme.ShowStatus(lblMsg, "مرحبًا " + UserSession.DisplayName, isSuccess: true);
     }
+
   }
 
 }

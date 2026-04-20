@@ -71,6 +71,7 @@ namespace ScaleGo
     public LoginForm()
     {
       InitializeComponent();
+      DoubleBuffered = true;
       System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
       ApplyLoginStyle();
     }
