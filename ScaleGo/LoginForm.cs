@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Drawing;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,10 +22,57 @@ namespace ScaleGo
 
     private string Language =>
       ConfigLoader.Config.apiSettings.Language;
+
+    private void ApplyLoginStyle()
+    {
+      BackColor = AppTheme.BackColor;
+      Font = AppTheme.DefaultFont;
+      ForeColor = AppTheme.Text;
+      Text = "ScaleGo Login";
+
+      AppTheme.BuildHeader(this, "ScaleGo Login");
+
+      label2.Font = AppTheme.DefaultFont;
+      label3.Font = AppTheme.DefaultFont;
+      label2.ForeColor = AppTheme.Text;
+      label3.ForeColor = AppTheme.Text;
+
+      AppTheme.StyleTextBox(txtUserName);
+      AppTheme.StyleTextBox(txtPassword);
+
+      AppTheme.StylePrimaryButton(btnLogin);
+      AppTheme.StyleSecondaryButton(btnCancel);
+
+      txtUserName.Width = 292;
+      txtPassword.Width = 292;
+
+      btnLogin.Location = new Point(97, 150);
+      btnLogin.Size = new Size(120, 40);
+
+      btnCancel.Location = new Point(269, 150);
+      btnCancel.Size = new Size(120, 40);
+
+
+      lblMsg.AutoSize = false;
+      lblMsg.Size = new Size(292, 42);
+      lblMsg.Location = new Point(97, 190);
+      lblMsg.TextAlign = ContentAlignment.MiddleLeft;
+      lblMsg.ForeColor = AppTheme.MutedText;
+
+      txtUserName.Location = new Point(97, 78);
+      txtPassword.Location = new Point(97, 118);
+
+      label2.Location = new Point(20, 81);
+      label3.Location = new Point(20, 121);
+
+      ClientSize = new Size(430, 235);
+    }
+
     public LoginForm()
     {
       InitializeComponent();
       System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+      ApplyLoginStyle();
     }
 
     public class LoginRequest
@@ -114,8 +162,7 @@ namespace ScaleGo
 
       try
       {
-        lblMsg.Text = "جاري تسجيل الدخول...";
-
+        AppTheme.ShowStatus(lblMsg, "جاري تسجيل الدخول...");
         var result = await CallLoginApi(userName, password);
 
         if (result.success && result.data != null && result.data.userSession != null)
@@ -125,16 +172,14 @@ namespace ScaleGo
           UserSession.DisplayName = result.data.userSession.displayName;
           UserSession.LogoUrl = result.data.userSession.logoUrl;
 
-          lblMsg.Text = "تم تسجيل الدخول بنجاح";
+          AppTheme.ShowStatus(lblMsg, "تم تسجيل الدخول بنجاح", isSuccess: true);
 
           this.DialogResult = DialogResult.OK;
           this.Close();
         }
         else
         {
-          lblMsg.Text = string.IsNullOrWhiteSpace(result.message)
-            ? "اسم المستخدم أو كلمة المرور غير صحيح"
-            : result.message;
+          AppTheme.ShowStatus(lblMsg, "اسم المستخدم أو كلمة المرور غير صحيح", isError: true);
         }
       }
       catch (Exception ex)

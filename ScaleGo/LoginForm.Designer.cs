@@ -54,7 +54,7 @@
       // 
       // btnLogin
       // 
-      this.btnLogin.Location = new System.Drawing.Point(97, 123);
+      this.btnLogin.Location = new System.Drawing.Point(97, 138);
       this.btnLogin.Name = "btnLogin";
       this.btnLogin.Size = new System.Drawing.Size(75, 34);
       this.btnLogin.TabIndex = 2;
@@ -65,7 +65,7 @@
       // lblMsg
       // 
       this.lblMsg.AutoSize = true;
-      this.lblMsg.Location = new System.Drawing.Point(94, 169);
+      this.lblMsg.Location = new System.Drawing.Point(94, 184);
       this.lblMsg.Name = "lblMsg";
       this.lblMsg.Size = new System.Drawing.Size(0, 17);
       this.lblMsg.TabIndex = 3;
@@ -91,7 +91,7 @@
       // btnCancel
       // 
       this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.btnCancel.Location = new System.Drawing.Point(314, 123);
+      this.btnCancel.Location = new System.Drawing.Point(314, 141);
       this.btnCancel.Name = "btnCancel";
       this.btnCancel.Size = new System.Drawing.Size(75, 29);
       this.btnCancel.TabIndex = 5;
@@ -104,7 +104,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.btnCancel;
-      this.ClientSize = new System.Drawing.Size(401, 193);
+      this.ClientSize = new System.Drawing.Size(401, 220);
       this.Controls.Add(this.btnCancel);
       this.Controls.Add(this.label3);
       this.Controls.Add(this.label2);

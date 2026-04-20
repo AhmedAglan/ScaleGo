@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="AppTheme.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
