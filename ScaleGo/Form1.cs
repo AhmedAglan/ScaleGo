@@ -91,6 +91,7 @@ namespace ScaleGo
 
     private void btnUpdateWeight_Click(object sender, EventArgs e)
     {
+      //test
       string msg;
       if(txtAWB.Text.Length<3)
       {
