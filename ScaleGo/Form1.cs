@@ -1,16 +1,16 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using Newtonsoft.Json;
-
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ScaleGo.AppConfig;
 
 namespace ScaleGo
 {
@@ -19,11 +19,14 @@ namespace ScaleGo
 
     private static readonly HttpClient _httpClient = new HttpClient();
 
-    private const string ApiUrl = "https://localhost:5051/api/Shipments/UpdateShipmentWeight";
-    private const string CompanyID = "280533";
-    private const string AccessToken = "AC1E0FAD-5963-4B6E-A61F-93E281C286D9";
-    private const string Language = "ar";
+    private static string ApiUrl => 
+      ConfigLoader.Config.apiSettings.BaseUrl +
+      ConfigLoader.Config.apiSettings.UpdateWeightEndpoint;
+    private string CompanyID =>
+      ConfigLoader.Config.apiSettings.CompanyID;
 
+    private string Language =>
+      ConfigLoader.Config.apiSettings.Language;
     public class UpdateShipmentWeightRequest
     {
       public string awb { get; set; }
@@ -52,7 +55,7 @@ namespace ScaleGo
         request.Headers.Accept.Clear();
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
         request.Headers.Add("CompanyID", CompanyID);
-        request.Headers.Add("AccessToken", AccessToken);
+        request.Headers.Add("AccessToken", UserSession.AccessToken);
         request.Headers.Add("Language", Language);
 
         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -234,5 +237,19 @@ namespace ScaleGo
         btnUpdateWeight.Enabled = true;
       }
     }
+
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      if (!UserSession.IsLoggedIn)
+      {
+        MessageBox.Show("يجب تسجيل الدخول أولاً");
+        Close();
+        return;
+      }
+
+      lblMsg.Text = "مرحبًا " + UserSession.DisplayName;
+    }
   }
+
 }

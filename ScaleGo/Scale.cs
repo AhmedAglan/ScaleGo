@@ -16,25 +16,13 @@ namespace ScaleGo
       try
       {
 
-        RS232 rS232;
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        string fileName = path + "\\ScaleInfo.json";
-        using (StreamReader reader = new StreamReader(fileName))
+        mySerialPort = new SerialPort(ConfigLoader.Config.PortName)
         {
-          string d = reader.ReadToEnd();
-
-          rS232 = Newtonsoft.Json.JsonConvert.DeserializeObject<RS232>(d);
-
-        }
-
-
-        mySerialPort = new SerialPort(rS232.PortName)
-        {
-          BaudRate = rS232.BaudRate,
-          Parity = rS232.Parity,
-          StopBits = rS232.StopBits,
-          DataBits = rS232.DataBits,
-          Handshake = rS232.Handshake
+          BaudRate = ConfigLoader.Config.BaudRate,
+          Parity = ConfigLoader.Config.Parity,
+          StopBits = ConfigLoader.Config.StopBits,
+          DataBits = ConfigLoader.Config.DataBits,
+          Handshake = ConfigLoader.Config.Handshake
         };
 
         mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);

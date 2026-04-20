@@ -107,8 +107,10 @@
       this.Controls.Add(this.txtWeight);
       this.Controls.Add(this.btnConnectScale);
       this.Name = "Form1";
-      this.Text = "Form1";
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+      this.Text = "ScaleGo";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+      this.Load += new System.EventHandler(this.Form1_Load);
       this.ResumeLayout(false);
       this.PerformLayout();
 
