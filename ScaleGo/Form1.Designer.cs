@@ -97,6 +97,7 @@
       // 
       // Form1
       // 
+      this.AcceptButton = this.btnUpdateWeight;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
