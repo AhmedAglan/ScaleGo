@@ -234,7 +234,7 @@ namespace ScaleGo
     {
 #if DEBUG
       txtWeight.Text = "0.620";
-      txtAWB.Text = "EDC03080196EG";
+      txtAWB.Text = "EDC00935147EG";
 #endif
 
       string msg;
