@@ -6,7 +6,7 @@
   "StopBits": 1, //None = 0, One = 1, Two = 2, OnePointFive = 3
   "Handshake": 0, //None = 0, XOnXOff = 1, RequestToSend = 2, RequestToSendXOnXOff = 3
   "ApiSettings": {
-    "BaseUrl": "https://localhost:5051",
+    "BaseUrl": "https://dispatchapi-test.pdc-eg.com",
     "UpdateWeightEndpoint": "/api/Shipments/UpdateShipmentWeight",
     "LoginEndpoint": "/api/Users/V1/Login",
     "CompanyID": "280533",
