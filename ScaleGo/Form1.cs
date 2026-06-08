@@ -45,9 +45,9 @@ namespace ScaleGo
       BackColor = AppTheme.BackColor;
       Font = AppTheme.DefaultFont;
       ForeColor = AppTheme.Text;
-      Text = "ScaleGo";
+      Text = "ScaleGo v1.1";
 
-      AppTheme.BuildHeader(this, "ScaleGo");
+      AppTheme.BuildHeader(this, "ScaleGo v1.1");
 
       label1.Text = "AWB";
       label1.Font = AppTheme.DefaultFont;
@@ -100,6 +100,8 @@ namespace ScaleGo
         request.Headers.Add("CompanyID", CompanyID);
         request.Headers.Add("AccessToken", UserSession.AccessToken);
         request.Headers.Add("Language", Language);
+        request.Headers.Add("SectionID", "-3");
+        request.Headers.Add("DeviceID", "ScaleGo");
 
         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
