@@ -11,19 +11,27 @@ namespace ScaleGo
   public class Scale
   {
     SerialPort mySerialPort;
-    public void OpenPort()
+    public void OpenPort(string PortID)
     {
       try
       {
-
-        mySerialPort = new SerialPort(ConfigLoader.Config.PortName)
+        string PortName = "";
+        if (PortID != "")
         {
-          BaudRate = ConfigLoader.Config.BaudRate,
-          Parity = ConfigLoader.Config.Parity,
-          StopBits = ConfigLoader.Config.StopBits,
-          DataBits = ConfigLoader.Config.DataBits,
-          Handshake = ConfigLoader.Config.Handshake
-        };
+          PortName="COM" + PortID;
+        }
+        else
+        {
+          PortName = ConfigLoader.Config.PortName;
+        }
+          mySerialPort = new SerialPort(PortName)
+          {
+            BaudRate = ConfigLoader.Config.BaudRate,
+            Parity = ConfigLoader.Config.Parity,
+            StopBits = ConfigLoader.Config.StopBits,
+            DataBits = ConfigLoader.Config.DataBits,
+            Handshake = ConfigLoader.Config.Handshake
+          };
 
         mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 

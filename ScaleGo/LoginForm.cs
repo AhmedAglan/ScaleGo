@@ -142,6 +142,10 @@ namespace ScaleGo
 
     private async void btnLogin_Click(object sender, EventArgs e)
     {
+#if DEBUG
+      txtUserName.Text = "PDCAdmin";
+      txtPassword.Text = "123456";
+#endif
       string userName = txtUserName.Text.Trim();
       string password = txtPassword.Text;
 

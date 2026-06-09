@@ -45,9 +45,9 @@ namespace ScaleGo
       BackColor = AppTheme.BackColor;
       Font = AppTheme.DefaultFont;
       ForeColor = AppTheme.Text;
-      Text = "ScaleGo v1.1";
+      Text = "ScaleGo v1.2";
 
-      AppTheme.BuildHeader(this, "ScaleGo v1.1");
+      AppTheme.BuildHeader(this, Text);
 
       label1.Text = "AWB";
       label1.Font = AppTheme.DefaultFont;
@@ -55,6 +55,7 @@ namespace ScaleGo
 
       AppTheme.StyleTextBox(txtAWB);
       AppTheme.StyleTextBox(txtWeight, true);
+      AppTheme.StyleTextBox(txtComPortID, true);
 
       txtWeight.Font = AppTheme.WeightFont;
       txtWeight.TextAlign = HorizontalAlignment.Center;
@@ -62,11 +63,13 @@ namespace ScaleGo
       AppTheme.StyleSecondaryButton(btnConnectScale);
       AppTheme.StylePrimaryButton(btnUpdateWeight);
 
+      txtComPortID.Size = new Size(150, 40);
       btnConnectScale.Size = new Size(150, 40);
       btnUpdateWeight.Size = new Size(260, 44);
 
-      btnConnectScale.Location = new Point(40, 90);
-      txtWeight.Location = new Point(210, 92);
+      txtComPortID.Location = new Point(40, 70);
+      btnConnectScale.Location = new Point(40, 100);
+      txtWeight.Location = new Point(210, 102);
       txtWeight.Size = new Size(170, 40);
 
       label1.Location = new Point(40, 155);
@@ -158,7 +161,7 @@ namespace ScaleGo
 
           if (!scale.IsPortOpened)
           {
-            scale.OpenPort();
+            scale.OpenPort(txtComPortID.Text);
           }
 
           tmrGetWeight.Enabled = true;
