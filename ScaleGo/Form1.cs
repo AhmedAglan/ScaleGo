@@ -161,7 +161,8 @@ namespace ScaleGo
 
           if (!scale.IsPortOpened)
           {
-            scale.OpenPort(txtComPortID.Text);
+          var m=  scale.OpenPort(txtComPortID.Text);
+            lblMsg.Text = m;
           }
 
           tmrGetWeight.Enabled = true;

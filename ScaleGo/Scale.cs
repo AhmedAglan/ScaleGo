@@ -11,7 +11,7 @@ namespace ScaleGo
   public class Scale
   {
     SerialPort mySerialPort;
-    public void OpenPort(string PortID)
+    public string OpenPort(string PortID)
     {
       try
       {
@@ -37,10 +37,13 @@ namespace ScaleGo
 
         mySerialPort.Open();
         IsPortOpened = true;
+        return "connected";
       }
       catch (Exception ex)
       {
+        
         IsPortOpened = false;
+        return ex.Message;
       }
 
     }
