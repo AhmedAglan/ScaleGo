@@ -38,6 +38,7 @@
       this.lblMsg = new System.Windows.Forms.Label();
       this.txtComPortID = new System.Windows.Forms.TextBox();
       this.txtLog = new System.Windows.Forms.TextBox();
+      this.btnSaveLog = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // btnConnectScale
@@ -119,6 +120,17 @@
       this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
       this.txtLog.Size = new System.Drawing.Size(266, 276);
       this.txtLog.TabIndex = 7;
+      //
+      // btnSaveLog
+      //
+      this.btnSaveLog.Location = new System.Drawing.Point(222, 158);
+      this.btnSaveLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+      this.btnSaveLog.Name = "btnSaveLog";
+      this.btnSaveLog.Size = new System.Drawing.Size(95, 19);
+      this.btnSaveLog.TabIndex = 8;
+      this.btnSaveLog.Text = "Save Log";
+      this.btnSaveLog.UseVisualStyleBackColor = true;
+      this.btnSaveLog.Click += new System.EventHandler(this.btnSaveLog_Click);
       // 
       // Form1
       // 
@@ -127,6 +139,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(508, 485);
       this.Controls.Add(this.txtComPortID);
+      this.Controls.Add(this.btnSaveLog);
       this.Controls.Add(this.txtLog);
       this.Controls.Add(this.lblMsg);
       this.Controls.Add(this.btnUpdateWeight);
@@ -153,9 +166,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer tmrGetWeight;
         private System.Windows.Forms.Button btnUpdateWeight;
-        private System.Windows.Forms.Label lblMsg;
+    private System.Windows.Forms.Label lblMsg;
     private System.Windows.Forms.TextBox txtComPortID;
     private System.Windows.Forms.TextBox txtLog;
+    private System.Windows.Forms.Button btnSaveLog;
   }
 }
-

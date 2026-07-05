@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -62,11 +63,13 @@ namespace ScaleGo
       txtWeight.TextAlign = HorizontalAlignment.Center;
 
       AppTheme.StyleSecondaryButton(btnConnectScale);
+      AppTheme.StyleSecondaryButton(btnSaveLog);
       AppTheme.StylePrimaryButton(btnUpdateWeight);
 
       txtComPortID.Size = new Size(150, 40);
       btnConnectScale.Size = new Size(150, 40);
       btnUpdateWeight.Size = new Size(260, 44);
+      btnSaveLog.Size = new Size(150, 44);
 
       txtComPortID.Location = new Point(40, 70);
       btnConnectScale.Location = new Point(40, 100);
@@ -78,6 +81,7 @@ namespace ScaleGo
       txtAWB.Size = new Size(260, 32);
 
       btnUpdateWeight.Location = new Point(40, 205);
+      btnSaveLog.Location = new Point(320, 205);
 
       lblMsg.Size = new Size(250, 60);
       lblMsg.Location = new Point(500, 90);
@@ -247,7 +251,7 @@ namespace ScaleGo
     {
 #if DEBUG
       txtWeight.Text = "0.620";
-      txtAWB.Text = "EDC05793355EG";
+      txtAWB.Text = "EDC12822793EG";
 #endif
 
       string msg;
@@ -310,6 +314,37 @@ namespace ScaleGo
       finally
       {
         btnUpdateWeight.Enabled = true;
+      }
+    }
+
+    private void btnSaveLog_Click(object sender, EventArgs e)
+    {
+      if (string.IsNullOrWhiteSpace(txtLog.Text))
+      {
+        AppTheme.ShowStatus(lblMsg, "No log data available to save", isError: true);
+        return;
+      }
+
+      using (var dialog = new SaveFileDialog())
+      {
+        dialog.Title = "Save log";
+        dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+        dialog.DefaultExt = "txt";
+        dialog.AddExtension = true;
+        dialog.FileName = "ScaleGoLog_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+
+        if (dialog.ShowDialog(this) != DialogResult.OK)
+          return;
+
+        try
+        {
+          File.WriteAllText(dialog.FileName, txtLog.Text, Encoding.UTF8);
+          AppTheme.ShowStatus(lblMsg, "Log saved successfully", isSuccess: true);
+        }
+        catch (Exception ex)
+        {
+          AppTheme.ShowStatus(lblMsg, "Error saving log: " + ex.Message, isError: true);
+        }
       }
     }
 
