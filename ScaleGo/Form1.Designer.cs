@@ -37,13 +37,15 @@
       this.btnUpdateWeight = new System.Windows.Forms.Button();
       this.lblMsg = new System.Windows.Forms.Label();
       this.txtComPortID = new System.Windows.Forms.TextBox();
+      this.txtLog = new System.Windows.Forms.TextBox();
       this.SuspendLayout();
       // 
       // btnConnectScale
       // 
-      this.btnConnectScale.Location = new System.Drawing.Point(22, 124);
+      this.btnConnectScale.Location = new System.Drawing.Point(19, 101);
+      this.btnConnectScale.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.btnConnectScale.Name = "btnConnectScale";
-      this.btnConnectScale.Size = new System.Drawing.Size(111, 23);
+      this.btnConnectScale.Size = new System.Drawing.Size(95, 19);
       this.btnConnectScale.TabIndex = 0;
       this.btnConnectScale.Text = "Connect Scale";
       this.btnConnectScale.UseVisualStyleBackColor = true;
@@ -51,25 +53,27 @@
       // 
       // txtWeight
       // 
-      this.txtWeight.Location = new System.Drawing.Point(139, 124);
+      this.txtWeight.Location = new System.Drawing.Point(119, 101);
+      this.txtWeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.txtWeight.Name = "txtWeight";
       this.txtWeight.ReadOnly = true;
-      this.txtWeight.Size = new System.Drawing.Size(110, 24);
+      this.txtWeight.Size = new System.Drawing.Size(95, 20);
       this.txtWeight.TabIndex = 1;
       // 
       // txtAWB
       // 
-      this.txtAWB.Location = new System.Drawing.Point(139, 156);
+      this.txtAWB.Location = new System.Drawing.Point(119, 127);
+      this.txtAWB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.txtAWB.Name = "txtAWB";
-      this.txtAWB.Size = new System.Drawing.Size(110, 24);
+      this.txtAWB.Size = new System.Drawing.Size(95, 20);
       this.txtAWB.TabIndex = 2;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(19, 156);
+      this.label1.Location = new System.Drawing.Point(16, 127);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(38, 17);
+      this.label1.Size = new System.Drawing.Size(30, 13);
       this.label1.TabIndex = 3;
       this.label1.Text = "AWB";
       // 
@@ -80,9 +84,10 @@
       // 
       // btnUpdateWeight
       // 
-      this.btnUpdateWeight.Location = new System.Drawing.Point(22, 195);
+      this.btnUpdateWeight.Location = new System.Drawing.Point(19, 158);
+      this.btnUpdateWeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.btnUpdateWeight.Name = "btnUpdateWeight";
-      this.btnUpdateWeight.Size = new System.Drawing.Size(227, 23);
+      this.btnUpdateWeight.Size = new System.Drawing.Size(195, 19);
       this.btnUpdateWeight.TabIndex = 4;
       this.btnUpdateWeight.Text = "Update Weight";
       this.btnUpdateWeight.UseVisualStyleBackColor = true;
@@ -90,32 +95,46 @@
       // 
       // lblMsg
       // 
-      this.lblMsg.Location = new System.Drawing.Point(255, 124);
+      this.lblMsg.Location = new System.Drawing.Point(219, 101);
       this.lblMsg.Name = "lblMsg";
-      this.lblMsg.Size = new System.Drawing.Size(302, 94);
+      this.lblMsg.Size = new System.Drawing.Size(259, 76);
       this.lblMsg.TabIndex = 5;
       this.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // txtComPortID
       // 
-      this.txtComPortID.Location = new System.Drawing.Point(45, 56);
+      this.txtComPortID.Location = new System.Drawing.Point(39, 46);
+      this.txtComPortID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.txtComPortID.Name = "txtComPortID";
-      this.txtComPortID.Size = new System.Drawing.Size(111, 24);
+      this.txtComPortID.Size = new System.Drawing.Size(96, 20);
       this.txtComPortID.TabIndex = 6;
+      // 
+      // txtLog
+      // 
+      this.txtLog.Location = new System.Drawing.Point(222, 198);
+      this.txtLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+      this.txtLog.Multiline = true;
+      this.txtLog.Name = "txtLog";
+      this.txtLog.ReadOnly = true;
+      this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.txtLog.Size = new System.Drawing.Size(266, 276);
+      this.txtLog.TabIndex = 7;
       // 
       // Form1
       // 
       this.AcceptButton = this.btnUpdateWeight;
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(508, 485);
       this.Controls.Add(this.txtComPortID);
+      this.Controls.Add(this.txtLog);
       this.Controls.Add(this.lblMsg);
       this.Controls.Add(this.btnUpdateWeight);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.txtAWB);
       this.Controls.Add(this.txtWeight);
       this.Controls.Add(this.btnConnectScale);
+      this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.Name = "Form1";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "ScaleGo v1.0";
@@ -136,6 +155,7 @@
         private System.Windows.Forms.Button btnUpdateWeight;
         private System.Windows.Forms.Label lblMsg;
     private System.Windows.Forms.TextBox txtComPortID;
+    private System.Windows.Forms.TextBox txtLog;
   }
 }
 

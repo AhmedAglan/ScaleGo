@@ -56,6 +56,7 @@ namespace ScaleGo
       AppTheme.StyleTextBox(txtAWB);
       AppTheme.StyleTextBox(txtWeight, true);
       AppTheme.StyleTextBox(txtComPortID, true);
+      AppTheme.StyleTextBox(txtLog, true);
 
       txtWeight.Font = AppTheme.WeightFont;
       txtWeight.TextAlign = HorizontalAlignment.Center;
@@ -78,13 +79,17 @@ namespace ScaleGo
 
       btnUpdateWeight.Location = new Point(40, 205);
 
+      lblMsg.Size = new Size(250, 60);
       lblMsg.Location = new Point(500, 90);
-      lblMsg.Size = new Size(250, 160);
-      lblMsg.TextAlign = ContentAlignment.MiddleCenter;
+      lblMsg.TextAlign = ContentAlignment.MiddleLeft;
       lblMsg.Font = AppTheme.DefaultFont;
       lblMsg.ForeColor = AppTheme.MutedText;
 
-      ClientSize = new Size(800, 330);
+      txtLog.Location = new Point(500, 150);
+      txtLog.Size = new Size(250, 200);
+      txtLog.Font = AppTheme.DefaultFont;
+
+      ClientSize = new Size(800, 400);
     }
     private async Task<string> CallUpdateShipmentWeightApi(string awb, decimal weight)
     {
@@ -240,7 +245,7 @@ namespace ScaleGo
     {
 #if DEBUG
       txtWeight.Text = "0.620";
-      txtAWB.Text = "EDC00935147EG";
+      txtAWB.Text = "EDC05793355EG";
 #endif
 
       string msg;
@@ -286,6 +291,11 @@ namespace ScaleGo
         string apiResult = await CallUpdateShipmentWeightApi(awb, wght);
 
         AppTheme.ShowStatus(lblMsg, apiResult, isSuccess: true);
+
+        var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        txtLog.AppendText($"{timestamp} - AWB: {awb}, Weight: {wght} kg{Environment.NewLine}");
+        txtLog.SelectionStart = txtLog.TextLength;
+        txtLog.ScrollToCaret();
 
         txtAWB.Text = "";
         txtAWB.Focus();
