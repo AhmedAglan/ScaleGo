@@ -85,14 +85,17 @@ namespace ScaleGo
       lblMsg.Font = AppTheme.DefaultFont;
       lblMsg.ForeColor = AppTheme.MutedText;
 
-      txtLog.Location = new Point(500, 150);
-      txtLog.Size = new Size(250, 200);
+      txtLog.Dock = DockStyle.Bottom;
+      txtLog.Height = 400;
       txtLog.Font = AppTheme.DefaultFont;
 
-      ClientSize = new Size(800, 400);
+      ClientSize = new Size(800, 700);
     }
     private async Task<string> CallUpdateShipmentWeightApi(string awb, decimal weight)
     {
+#if DEBUG
+      return "Done";
+#endif
       var requestObj = new UpdateShipmentWeightRequest
       {
         awb = awb,
