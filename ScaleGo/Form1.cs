@@ -45,7 +45,7 @@ namespace ScaleGo
       BackColor = AppTheme.BackColor;
       Font = AppTheme.DefaultFont;
       ForeColor = AppTheme.Text;
-      Text = "ScaleGo v1.2";
+      Text = "ScaleGo v1.3";
 
       AppTheme.BuildHeader(this, Text);
 
@@ -89,7 +89,6 @@ namespace ScaleGo
       txtLog.Height = 400;
       txtLog.Font = AppTheme.DefaultFont;
 
-      ClientSize = new Size(800, 700);
     }
     private async Task<string> CallUpdateShipmentWeightApi(string awb, decimal weight)
     {
@@ -317,7 +316,11 @@ namespace ScaleGo
 
     private void Form1_Load(object sender, EventArgs e)
     {
+
       ApplyMainStyle();
+
+      this.ClientSize = new Size(800, 700);
+      Application.DoEvents();
 
       if (!UserSession.IsLoggedIn)
       {
@@ -329,6 +332,17 @@ namespace ScaleGo
       AppTheme.ShowStatus(lblMsg, "مرحبًا " + UserSession.DisplayName, isSuccess: true);
     }
 
+    private void Form1_Shown(object sender, EventArgs e)
+    {
+      try
+      {
+
+      }
+      catch (Exception)
+      {
+
+      }
+    }
   }
 
 }
